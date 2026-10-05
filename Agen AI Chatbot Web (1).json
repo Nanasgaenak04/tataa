@@ -1,0 +1,114 @@
+{
+  "name": "Agen AI Chatbot Web",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Bonbon. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "54bb2b04-020a-458d-921c-a4cd874a2bb4",
+      "name": "When chat message received",
+      "webhookId": "41ea6f88-a81f-4d20-bb66-a328cdaa0197"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah asisten AI yang ramah dan membantu menjawab pertanyaan seputar kesehatan dan kebugaran. \n\nTugasmu adalah memberikan jawaban berdasarkan informasi yang mencakup topik olahraga (kardio dan latihan beban), nutrisi dan kebutuhan kalori harian, Body Mass Index (BMI), strategi pemulihan setelah latihan, serta pola tidur yang mendukung program kebugaran. \n\nJaga jawaban tetap singkat, kurang dari 150 kata. Jika pertanyaan berada di luar topik kesehatan dan kebugaran, jangan mengarang jawaban — sampaikan dengan sopan bahwa topik tersebut di luar cakupan chatbot ini. \n\nGunakan bahasa Indonesia yang baku namun ramah, dan sertakan emoji secukupnya agar terasa lebih hangat. \n\nContoh:\nPertanyaan: \"Apa perbedaan antara kardio dan latihan beban?\"\nJawaban: \"Kardio 🏃 melatih daya tahan jantung dan paru-paru, contohnya lari atau bersepeda. Latihan beban 🏋️ membangun massa dan kekuatan otot, contohnya angkat beban. Keduanya saling melengkapi untuk kebugaran optimal!\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        96,
+        16
+      ],
+      "id": "c9ece076-aee1-48db-bf1e-e55e05ed2e13",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        224
+      ],
+      "id": "1d31f777-af9f-4ee9-9e45-023542b47c44",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2Y0lMQEyIVocRwTE",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        192,
+        224
+      ],
+      "id": "e7aa4cb0-3cb1-4a0d-93cf-621c9cc47192",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ff71f8f2-b3cc-4fa1-8d82-c615084de8a9",
+  "meta": {
+    "instanceId": "fcec60502b90bb96c9cf38c2152d1f661a5672a997f3a8595a866ab1b7f983ab"
+  },
+  "nodeGroups": [],
+  "id": "RCn7pOfJ5OKbIb2I",
+  "tags": []
+}
